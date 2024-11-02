@@ -47,6 +47,8 @@ public class HealthBar : MonoBehaviour
                 Image new_heart = new_heart_go.GetComponent<Image>();
                 //add to the list
                 hearts.Add(new_heart);
+                Material new_mat = new Material(new_heart.GetComponent<Image>().material);
+                new_heart.GetComponent<Image>().material = new_mat;
             }
         }
 
@@ -56,7 +58,7 @@ public class HealthBar : MonoBehaviour
         {
             if(j+1 > health)
             {
-                FadeOut(hearts[j].gameObject);
+                StartCoroutine(FadeOut(hearts[j].gameObject));
                 hearts.Remove(hearts[j]);
             }
         }
@@ -77,7 +79,7 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-    private void FadeOut(GameObject h)
+    private IEnumerator FadeOut(GameObject h)
     {
         Material m = h.GetComponent<Image>().material;
         float fade = 1f;
@@ -86,6 +88,7 @@ public class HealthBar : MonoBehaviour
             Debug.Log(fade);
             fade -= Time.deltaTime;
             m.SetFloat("_Fade", fade);
+            yield return null;
         }
         Destroy(h);
     }
