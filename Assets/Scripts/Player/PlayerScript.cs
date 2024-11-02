@@ -7,7 +7,7 @@ public class PlayerScript : MonoBehaviour
     private bool canControl;
     private Vector2 inputVector;
     private Vector2 lastInputVector;
-    public int health;
+    public static int health;
     private float playerSpeed;
     private Rigidbody2D rb;
 

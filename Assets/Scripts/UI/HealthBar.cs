@@ -20,8 +20,6 @@ public class HealthBar : MonoBehaviour
 
     private void Start()
     {
-        //find the player
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
         //make the list and get the first heart
         hearts = new List<Image>();
     }
@@ -29,7 +27,7 @@ public class HealthBar : MonoBehaviour
     private void Update()
     {
         //update to get the player's health
-        health = player.health;
+        health = PlayerScript.health;
 
         //adding new hearts
         for (int i = 0; i < health; i++)
@@ -49,6 +47,7 @@ public class HealthBar : MonoBehaviour
                 hearts.Add(new_heart);
                 Material new_mat = new Material(new_heart.GetComponent<Image>().material);
                 new_heart.GetComponent<Image>().material = new_mat;
+                StartCoroutine(FadeIn(hearts[i].gameObject));
             }
         }
 
@@ -66,16 +65,8 @@ public class HealthBar : MonoBehaviour
         //loop to update the heart visuals
         for (int f = 0; f < hearts.Count; f++)
         {
-            //if the heart is above the current health then its empty
-            if (f + 1 > health)
-            {
-                //LOST HEART
-            }
             //if the heart is below or equal to health its full
-            else
-            {
-                hearts[f].sprite = full_heart;
-            }
+            hearts[f].sprite = full_heart;
         }
     }
 
@@ -85,11 +76,22 @@ public class HealthBar : MonoBehaviour
         float fade = 1f;
         while(fade > 0f)
         {
-            Debug.Log(fade);
             fade -= Time.deltaTime;
             m.SetFloat("_Fade", fade);
             yield return null;
         }
         Destroy(h);
+    }
+
+    private IEnumerator FadeIn(GameObject h)
+    {
+        Material m = h.GetComponent<Image>().material;
+        float fade = 0f;
+        while (fade < 1f)
+        {
+            fade += Time.deltaTime;
+            m.SetFloat("_Fade", fade);
+            yield return null;
+        }
     }
 }

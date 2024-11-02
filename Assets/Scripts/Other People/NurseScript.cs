@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Unity.VisualScripting.ReorderableList;
+using TMPro;
 using UnityEngine;
 
 public class NurseScript : MonoBehaviour
@@ -12,6 +12,11 @@ public class NurseScript : MonoBehaviour
     private PatientScript patient;
     private float random_offset;
     private bool has_patient;
+    private float speed;
+    private float level;
+    public int patients_left;
+
+    
 
     private void Start()
     {
@@ -20,14 +25,26 @@ public class NurseScript : MonoBehaviour
         random_offset = Random.Range(-5f,5f);
         patient = t.GetChild(0).gameObject.GetComponent<PatientScript>();
         has_patient = true;
+        level = NurseSpawner.level;
+        speed = 0f;
     }
 
     private void Update()
     {
+        //scale the speed based on level
+        if (level == 0)
+        {
+            speed = 5f;
+        }
+        else
+        {
+            speed = 5f * level;
+        }
 
+        //actually move
         if (moving)
         {
-            t.position += new Vector3(-0.1f,0f,0f);
+            t.position += new Vector3(-speed * Time.deltaTime,0f,0f);
         }
         
         //destroy the object if its offscreen
