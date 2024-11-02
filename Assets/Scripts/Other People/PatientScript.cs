@@ -128,7 +128,6 @@ public class PatientScript : MonoBehaviour
         //move out
         while(t.position.x > -10f)
         {
-            Debug.Log("moving out");
             t.position += new Vector3(-5 * Time.deltaTime, 0f, 0f);
             yield return null;
         }
