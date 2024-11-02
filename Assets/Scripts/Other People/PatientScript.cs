@@ -8,12 +8,26 @@ public class PatientScript : MonoBehaviour
     private Transform t;
     private bool settled;
     public float time_limit;
+    private BedScript my_bed;
 
     private void Start()
     {
+        
         t = GetComponent<Transform>();
         settled = false;
         time_limit = UnityEngine.Random.Range(10f, 20f);
+    }
+
+    private void Update()
+    {
+        if(settled)
+        {
+            if (my_bed.my_bar.localScale.x == 0)
+            {
+                my_bed.has_patient = false;
+                Destroy(this.gameObject);
+            }
+        }
     }
 
     public IEnumerator GoToBed(GameObject bed)
@@ -31,6 +45,7 @@ public class PatientScript : MonoBehaviour
         }
 
         t.SetParent(bed.transform, true);
+        my_bed = bed.gameObject.GetComponent<BedScript>();
         t.rotation = Quaternion.Euler(0f, 0f, 0f);
         t.position = bed.transform.position;
         bed.GetComponent<BedScript>().patient_time_limit = time_limit;

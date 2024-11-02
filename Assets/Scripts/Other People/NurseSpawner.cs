@@ -6,7 +6,7 @@ using UnityEngine;
 public class NurseSpawner : MonoBehaviour
 {
     [SerializeField] GameObject nurse_object;
-    [SerializeField] List<GameObject> beds;
+    [SerializeField] public List<GameObject> beds;
 
     void Update()
     {
@@ -19,8 +19,10 @@ public class NurseSpawner : MonoBehaviour
                 temp.transform.rotation = Quaternion.Euler(0f, 0f, -90f);
 
                 //get and set the patient bed, removing it from available beds
+
                 int b = Random.Range(0, beds.Count);
                 temp.GetComponent<NurseScript>().patient_bed = beds[b];
+                beds[b].GetComponent<BedScript>().has_patient = true;
                 beds.Remove(beds[b]);
             }
         }
