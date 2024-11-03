@@ -28,6 +28,7 @@ public class MinigameScript : MonoBehaviour
 
     private IEnumerator WinOrLose(int condition)
     {
+        
         if (condition == 0)
         {
             checkmark.enabled = true;

@@ -33,10 +33,10 @@ public class PatientScript : MonoBehaviour
         minigame_parent = GameObject.Find("Minigame").GetComponent<MinigameParentScript>();
         t = GetComponent<Transform>();
         settled = false;
-        float low_time = 40f - (2*NurseSpawner.level);
-        if (low_time < 15f) { low_time = 15f; }
-        float high_time = 50f - (2*NurseSpawner.level);
-        if (high_time < 20f) { high_time = 20f; }
+        float low_time = 20f - (2*NurseSpawner.level);
+        if (low_time < 5f) { low_time = 5f; }
+        float high_time = 30 - (2*NurseSpawner.level);
+        if (high_time < 10f) { high_time = 10f; }
         time_limit = UnityEngine.Random.Range(low_time, high_time);
         on_player = false;
         anim = GetComponent<Animator>();
@@ -62,7 +62,7 @@ public class PatientScript : MonoBehaviour
         //manage healing/killing
         if(on_player)
         {
-
+            PlayerScript.press_e = true;
             //activate minigame
             if(Input.GetKeyDown(KeyCode.E) && !minigame_active)
             {
@@ -77,6 +77,10 @@ public class PatientScript : MonoBehaviour
                 minigame_parent.EnterMinigame();
                 minigame_parent.text.text = minigame_s.instructions;
             }
+        }
+        else
+        {
+            PlayerScript.press_e = false;
         }
 
         //manage minigame healthbar
@@ -128,6 +132,7 @@ public class PatientScript : MonoBehaviour
         NurseSpawner.patients_left--;
         //editing values to reset bed
         settled = false;
+        PlayerScript.press_e = false;
         my_bed.has_patient = false;
         my_bed.patient_time_limit = 0;
         StartCoroutine(WalkOut());
@@ -136,6 +141,7 @@ public class PatientScript : MonoBehaviour
     //actually triggers death at the end
     public void deathAnimation()
     {
+        
         PlayerScript.canControl = true;
         int temp = UnityEngine.Random.Range(0, deaths.Count);
         anim.SetBool(deaths[temp], true);
@@ -151,6 +157,7 @@ public class PatientScript : MonoBehaviour
         my_bed.patient_time_limit = 0;
         my_bed.has_patient = false;
         settled = false;
+        PlayerScript.press_e = false;
         Destroy(this.gameObject);
     }
 

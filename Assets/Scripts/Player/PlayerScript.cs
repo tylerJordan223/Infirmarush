@@ -12,8 +12,11 @@ public class PlayerScript : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
 
+    public static bool press_e;
+
     void Start()
     {
+        press_e = false;
         anim = GetComponent<Animator>();
         canControl = true;
         health = 1;
