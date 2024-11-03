@@ -73,7 +73,11 @@ public class NurseScript : MonoBehaviour
         {
             this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = player.GetComponent<SpriteRenderer>().sortingOrder - 1;
         }
-        patient.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sortingOrder = this.gameObject.GetComponent<SpriteRenderer>().sortingOrder+1;
-        patient.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = this.gameObject.GetComponent<SpriteRenderer>().sortingOrder + 2;
+
+        if (has_patient)
+        {
+            patient.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sortingOrder = this.gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
+            patient.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = this.gameObject.GetComponent<SpriteRenderer>().sortingOrder + 2;
+        }
     }
 }

@@ -13,6 +13,7 @@ public class PatientScript : MonoBehaviour
     private bool on_player;
 
     [SerializeField] List<String> deaths;
+    [SerializeField] List<Color> colors;
     private Animator anim;
 
     private void Start()
@@ -22,6 +23,8 @@ public class PatientScript : MonoBehaviour
         time_limit = UnityEngine.Random.Range(10f, 20f);
         on_player = false;
         anim = GetComponent<Animator>();
+
+        this.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().color = colors[UnityEngine.Random.Range(0, colors.Count)];
     }
 
     private void Update()
@@ -111,6 +114,7 @@ public class PatientScript : MonoBehaviour
         t.SetParent(null, true);
         //move left
         Vector3 goal_position = new Vector3(t.position.x - 1.5f, t.position.y, 0f);
+        anim.SetBool("alive", true);
         while(t.position.x > goal_position.x)
         {
             transform.position += new Vector3(-5 * Time.deltaTime, 0f, 0f);
@@ -120,13 +124,17 @@ public class PatientScript : MonoBehaviour
         t.localRotation = Quaternion.Euler(0f, 0f, 0f);
         //move up
         float tempsign = Mathf.Sign(t.position.y);
-        while(t.position.y > 1.6f || t.position.y < 1.4f)
+        anim.SetBool("alive", false);
+        anim.SetBool("down", true);
+        while (t.position.y > 1.6f || t.position.y < 1.4f)
         {
             t.position += new Vector3(0f, 5 * Time.deltaTime * -tempsign, 0f);
             yield return null;
         }
         //move out
-        while(t.position.x > -10f)
+        anim.SetBool("down", false);
+        anim.SetBool("left", true);
+        while (t.position.x > -10f)
         {
             t.position += new Vector3(-5 * Time.deltaTime, 0f, 0f);
             yield return null;
