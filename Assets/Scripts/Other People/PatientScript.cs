@@ -11,10 +11,12 @@ public class PatientScript : MonoBehaviour
     public float time_limit;
     private BedScript my_bed;
     private bool on_player;
+    public bool canDie;
 
     [SerializeField] List<String> deaths;
     [SerializeField] List<Color> colors;
     private Animator anim;
+    private BoxCollider2D my_collider;
 
     //minigame stuff
     [SerializeField] List<GameObject> minigames;
@@ -25,10 +27,17 @@ public class PatientScript : MonoBehaviour
 
     private void Start()
     {
+        canDie = true;
+        my_collider = this.gameObject.GetComponent<BoxCollider2D>();
+        my_collider.enabled = false;
         minigame_parent = GameObject.Find("Minigame").GetComponent<MinigameParentScript>();
         t = GetComponent<Transform>();
         settled = false;
-        time_limit = UnityEngine.Random.Range(10f, 20f);
+        float low_time = 40f - (2*NurseSpawner.level);
+        if (low_time < 15f) { low_time = 15f; }
+        float high_time = 50f - (2*NurseSpawner.level);
+        if (high_time < 20f) { high_time = 20f; }
+        time_limit = UnityEngine.Random.Range(low_time, high_time);
         on_player = false;
         anim = GetComponent<Animator>();
 
@@ -43,7 +52,7 @@ public class PatientScript : MonoBehaviour
     {
         if(settled)
         {
-            if (my_bed.my_bar.localScale.x == 0)
+            if (my_bed.my_bar.localScale.x == 0 && canDie)
             {
                 minigame_parent.ExitMinigame();
                 deathAnimation();
@@ -109,6 +118,7 @@ public class PatientScript : MonoBehaviour
             t.localRotation = Quaternion.Euler(0f, 0f, 180f);
         }
         settled = true;
+        my_collider.enabled = true;
         yield return null;
     }
 

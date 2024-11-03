@@ -17,6 +17,7 @@ public class NurseSpawner : MonoBehaviour
 
     public static bool perfect;
     private bool leveling_up;
+    private bool patient_pause;
 
     //UI
     [SerializeField] TextMeshProUGUI level_UI;
@@ -24,6 +25,7 @@ public class NurseSpawner : MonoBehaviour
 
     private void Start()
     {
+        patient_pause = false;
         level_anim = level_UI.gameObject.GetComponent<Animator>();
         time_between_nurses = 0f;
         current_time = 0f;
@@ -62,7 +64,7 @@ public class NurseSpawner : MonoBehaviour
         }
         //DEBUG ONLY REMOVE LATER//
 
-        if (current_time > time_between_nurses)
+        if (current_time > time_between_nurses || (beds.Count == 6 && patients_left > 0 && !patient_pause && !leveling_up))
         {
             if(beds.Count > 0)
             {
@@ -76,6 +78,8 @@ public class NurseSpawner : MonoBehaviour
                 temp.GetComponent<NurseScript>().patient_bed = beds[b];
                 beds[b].GetComponent<BedScript>().has_patient = true;
                 beds.Remove(beds[b]);
+                patient_pause = true;
+                StartCoroutine(HandlePause());
             }
 
             //reset the time
@@ -96,6 +100,12 @@ public class NurseSpawner : MonoBehaviour
         current_time += Time.deltaTime;
     }
 
+    private IEnumerator HandlePause()
+    {
+        patient_pause = false;
+        yield return new WaitForSeconds(3f);
+    }
+
     private IEnumerator LevelUp()
     {
         //never will this animation take over 10 seconds
@@ -103,23 +113,39 @@ public class NurseSpawner : MonoBehaviour
 
         level_anim.SetBool("levelingUp", true);
         yield return new WaitForSeconds(1f);
+        if(perfect)
+        {
+            level_UI.gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "PERFECT ROUND!";
+        }
         level++;
         level_UI.text = "Level " + level;
         patients_left = 3 * level;
         yield return new WaitForSeconds(0.5f);
+        level_UI.gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "";
         level_anim.SetBool("levelingUp", false);
         //couple of seconds of rest before level starts
-        yield return new WaitForSeconds(1f);
-        PlayerScript.health++;
-        //add another health if perfect round
-        if (perfect)
+        yield return new WaitForSeconds(2f);
+        if(PlayerScript.health < 5)
         {
             PlayerScript.health++;
+            //add another health if perfect round
+            if (perfect)
+            {
+                PlayerScript.health++;
+            }
         }
         perfect = true;
         yield return new WaitForSeconds(3f);
         //spawn the first nurse and stop leveling up
         leveling_up = false;
         time_between_nurses = -1;
+
+        //delete excess minigames
+        GameObject minigameParent = GameObject.Find("Game");
+        for (int i = minigameParent.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(minigameParent.transform.GetChild(i).gameObject);
+        }
+
     }
 }

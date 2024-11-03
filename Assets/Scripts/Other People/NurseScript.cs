@@ -22,7 +22,7 @@ public class NurseScript : MonoBehaviour
     {
         t = GetComponent<Transform>();
         moving = true;
-        random_offset = Random.Range(-5f,5f);
+        random_offset = Random.Range(-3f,3f);
         patient = t.GetChild(0).gameObject.GetComponent<PatientScript>();
         has_patient = true;
         level = NurseSpawner.level;
@@ -71,7 +71,7 @@ public class NurseScript : MonoBehaviour
         }
         else
         {
-            this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = player.GetComponent<SpriteRenderer>().sortingOrder - 1;
+            this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = player.GetComponent<SpriteRenderer>().sortingOrder - 3;
         }
 
         if (has_patient)
