@@ -60,11 +60,6 @@ public class NurseSpawner : MonoBehaviour
             beds[b].GetComponent<BedScript>().has_patient = true;
             beds.Remove(beds[b]);
         }
-
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            PlayerScript.health++;
-        }
         //DEBUG ONLY REMOVE LATER//
 
         if (current_time > time_between_nurses)

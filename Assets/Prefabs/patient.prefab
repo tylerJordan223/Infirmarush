@@ -303,9 +303,11 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 1, g: 0, b: 0.7577381, a: 1}
   minigames:
-  - {fileID: 4276309720560291254, guid: ac03e485a9ae97945b4fdbbbb8a3533b, type: 3}
+  - {fileID: 8041226181587165732, guid: 3f5e61ed1105bbf4f9776f0b57183fc1, type: 3}
   minigame: {fileID: 0}
   minigame_s: {fileID: 0}
+  minigame_parent: {fileID: 0}
+  minigame_active: 0
 --- !u!61 &5214430308363532876
 BoxCollider2D:
   m_ObjectHideFlags: 0

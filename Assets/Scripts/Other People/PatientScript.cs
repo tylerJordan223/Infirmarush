@@ -53,15 +53,6 @@ public class PatientScript : MonoBehaviour
         //manage healing/killing
         if(on_player)
         {
-            if(Input.GetKeyDown(KeyCode.H))
-            {
-                isHealed();
-                
-            }
-            if(Input.GetKeyDown(KeyCode.K))
-            {
-                deathAnimation();
-            }
 
             //activate minigame
             if(Input.GetKeyDown(KeyCode.E) && !minigame_active)
