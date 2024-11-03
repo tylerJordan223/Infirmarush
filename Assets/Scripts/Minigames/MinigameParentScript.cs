@@ -8,7 +8,6 @@ public class MinigameParentScript : MonoBehaviour
 {
     [SerializeField] public Slider s;
     [SerializeField] public TextMeshProUGUI text;
-    [SerializeField] public Image background;
     public GameObject minigame;
 
     private Animator anim;

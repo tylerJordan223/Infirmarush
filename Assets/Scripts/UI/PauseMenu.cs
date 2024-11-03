@@ -9,11 +9,10 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] Canvas game_over;
     private bool pause;
     public static bool can_pause;
-    private MinigameParentScript mgp;
 
     private void Start()
     {
-        mgp = GameObject.Find("Minigame").GetComponent<MinigameParentScript>();
+        
         pause_menu.gameObject.SetActive(false);
         game_over.gameObject.SetActive(false);
         pause = false;
@@ -52,7 +51,6 @@ public class PauseMenu : MonoBehaviour
 
     public void GameOver()
     {
-        mgp.ExitMinigame();
         game_over.gameObject.SetActive(true);
     }
 

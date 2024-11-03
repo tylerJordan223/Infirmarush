@@ -20,7 +20,7 @@ public class PatientScript : MonoBehaviour
     [SerializeField] List<GameObject> minigames;
     public GameObject minigame;
     public MinigameScript minigame_s;
-    private MinigameParentScript minigame_parent;
+    public MinigameParentScript minigame_parent;
     public bool minigame_active;
 
     private void Start()
@@ -75,7 +75,6 @@ public class PatientScript : MonoBehaviour
                 minigame_active = true;
                 minigame_parent.minigame = mg;
                 minigame_parent.EnterMinigame();
-                minigame_parent.background.sprite = minigame_s.background;
                 minigame_parent.text.text = minigame_s.instructions;
             }
         }
@@ -124,18 +123,19 @@ public class PatientScript : MonoBehaviour
 
     public void isHealed()
     {
+        PlayerScript.canControl = true;
         NurseSpawner.patients_left--;
-
         //editing values to reset bed
-        my_bed.patient_time_limit = 0;
-        my_bed.has_patient = false;
         settled = false;
+        my_bed.has_patient = false;
+        my_bed.patient_time_limit = 0;
         StartCoroutine(WalkOut());
     }
 
     //actually triggers death at the end
     public void deathAnimation()
     {
+        PlayerScript.canControl = true;
         int temp = UnityEngine.Random.Range(0, deaths.Count);
         anim.SetBool(deaths[temp], true);
     }
@@ -155,6 +155,7 @@ public class PatientScript : MonoBehaviour
 
     private IEnumerator WalkOut()
     {
+        Debug.Log("walking out");
         //set parent to nothing
         t.SetParent(null, true);
         //move left

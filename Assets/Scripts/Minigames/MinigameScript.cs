@@ -1,23 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MinigameScript : MonoBehaviour
 {
-    [SerializeField] public Sprite background;
     [SerializeField] public string instructions;
     public PatientScript my_patient;
+    private MinigameParentScript parent;
 
-    //heal the patient
-    public void Win()
+    private void Start()
     {
-        my_patient.isHealed();
+        parent = my_patient.minigame_parent;
     }
 
-    //kill the patient
-    public void Lose()
+    public void EndMinigame(int condition)
     {
-        my_patient.deathAnimation();
+        parent.ExitMinigame();
+        if (condition == 0)
+        {
+            my_patient.isHealed();
+        }else if(condition == 1)
+        {
+            my_patient.deathAnimation();
+        }
     }
 
     private void OnDestroy()
