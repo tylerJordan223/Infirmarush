@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    private bool canControl;
+    public static bool canControl;
     private Vector2 inputVector;
     private Vector2 lastInputVector;
     public static int health;

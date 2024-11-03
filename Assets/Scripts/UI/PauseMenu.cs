@@ -8,17 +8,21 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] Canvas pause_menu;
     [SerializeField] Canvas game_over;
     private bool pause;
+    public static bool can_pause;
+    private MinigameParentScript mgp;
 
     private void Start()
     {
+        mgp = GameObject.Find("Minigame").GetComponent<MinigameParentScript>();
         pause_menu.gameObject.SetActive(false);
         game_over.gameObject.SetActive(false);
         pause = false;
+        can_pause = true;
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape) && can_pause)
         {
             pause = !pause;
         }
@@ -48,6 +52,7 @@ public class PauseMenu : MonoBehaviour
 
     public void GameOver()
     {
+        mgp.ExitMinigame();
         game_over.gameObject.SetActive(true);
     }
 

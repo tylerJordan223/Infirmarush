@@ -16,13 +16,25 @@ public class PatientScript : MonoBehaviour
     [SerializeField] List<Color> colors;
     private Animator anim;
 
+    //minigame stuff
+    [SerializeField] List<GameObject> minigames;
+    public GameObject minigame;
+    public MinigameScript minigame_s;
+    private MinigameParentScript minigame_parent;
+    public bool minigame_active;
+
     private void Start()
     {
+        minigame_parent = GameObject.Find("Minigame").GetComponent<MinigameParentScript>();
         t = GetComponent<Transform>();
         settled = false;
         time_limit = UnityEngine.Random.Range(10f, 20f);
         on_player = false;
         anim = GetComponent<Animator>();
+
+        minigame = minigames[UnityEngine.Random.Range(0,minigames.Count)];
+        minigame_s = minigame.GetComponent<MinigameScript>();
+        minigame_active = false;
 
         this.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().color = colors[UnityEngine.Random.Range(0, colors.Count)];
     }
@@ -33,9 +45,8 @@ public class PatientScript : MonoBehaviour
         {
             if (my_bed.my_bar.localScale.x == 0)
             {
-                //pick a random death
-                int temp = UnityEngine.Random.Range(0, deaths.Count);
-                anim.SetBool(deaths[temp], true);
+                minigame_parent.ExitMinigame();
+                deathAnimation();
             }
         }
 
@@ -49,10 +60,37 @@ public class PatientScript : MonoBehaviour
             }
             if(Input.GetKeyDown(KeyCode.K))
             {
-                //pick a random death
-                int temp = UnityEngine.Random.Range(0,deaths.Count);
-                anim.SetBool(deaths[temp], true);
+                deathAnimation();
             }
+
+            //activate minigame
+            if(Input.GetKeyDown(KeyCode.E) && !minigame_active)
+            {
+                PauseMenu.can_pause = false;
+                PlayerScript.canControl = false;
+                GameObject mg = Instantiate(minigame);
+                mg.gameObject.GetComponent<MinigameScript>().my_patient = this;
+                mg.transform.position = minigame_parent.transform.position;
+                mg.transform.SetParent(minigame_parent.transform.Find("Game"));
+                minigame_active = true;
+                minigame_parent.minigame = mg;
+                minigame_parent.EnterMinigame();
+                minigame_parent.background.sprite = minigame_s.background;
+                minigame_parent.text.text = minigame_s.instructions;
+            }
+        }
+
+        //manage minigame healthbar
+        if(minigame_active)
+        {
+            minigame_parent.s.value = -my_bed.my_bar.localScale.x / 2;
+
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                minigame_parent.ExitMinigame();
+                PlayerScript.canControl = true;
+            }
+
         }
     }
 
@@ -93,6 +131,13 @@ public class PatientScript : MonoBehaviour
         my_bed.has_patient = false;
         settled = false;
         StartCoroutine(WalkOut());
+    }
+
+    //actually triggers death at the end
+    public void deathAnimation()
+    {
+        int temp = UnityEngine.Random.Range(0, deaths.Count);
+        anim.SetBool(deaths[temp], true);
     }
 
     public void isKilled()
