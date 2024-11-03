@@ -38,15 +38,17 @@ public class NurseSpawner : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(patients_left);
+
         //makes sure that there are no patients left and all the beds are empty
-        if (patients_left == 0 && beds.Count == 6 && !leveling_up)
+        if (patients_left <= 0 && beds.Count == 6 && !leveling_up)
         {
             StartCoroutine(LevelUp());
             leveling_up = true;
         }
 
         //DEBUG ONLY REMOVE LATER//
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) && beds.Count > 0)
         {
             GameObject temp = Instantiate(nurse_object);
             temp.transform.position = this.transform.position;

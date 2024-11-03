@@ -110,7 +110,7 @@ public class PatientScript : MonoBehaviour
         //set parent to nothing
         t.SetParent(null, true);
         //move left
-        Vector3 goal_position = new Vector3(t.position.x - 3f, t.position.y, 0f);
+        Vector3 goal_position = new Vector3(t.position.x - 1.5f, t.position.y, 0f);
         while(t.position.x > goal_position.x)
         {
             transform.position += new Vector3(-5 * Time.deltaTime, 0f, 0f);

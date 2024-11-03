@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,13 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] Canvas pause_menu;
+    [SerializeField] Canvas game_over;
     private bool pause;
 
     private void Start()
     {
         pause_menu.gameObject.SetActive(false);
+        game_over.gameObject.SetActive(false);
         pause = false;
     }
 
@@ -30,15 +33,22 @@ public class PauseMenu : MonoBehaviour
             pause_menu.gameObject.SetActive(false);
             Time.timeScale = 1f;
         }
-    }
 
-    public void QuitToMenu()
-    {
-        //go to menu
+        //game over
+        if(PlayerScript.health == 0)
+        {
+            GameOver();
+        }
     }
 
     public void UnPause()
     {
         pause = false;
     }
+
+    public void GameOver()
+    {
+        game_over.gameObject.SetActive(true);
+    }
+
 }
