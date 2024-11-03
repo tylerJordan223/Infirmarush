@@ -183,14 +183,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 5992548394093669060}
     m_Modifications:
     - target: {fileID: 3309707638444196141, guid: 3ca2b2fa7712468438036389597fded3, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.4264535
-      objectReference: {fileID: 0}
-    - target: {fileID: 3309707638444196141, guid: 3ca2b2fa7712468438036389597fded3, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3309707638444196141, guid: 3ca2b2fa7712468438036389597fded3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.12
       objectReference: {fileID: 0}
@@ -233,10 +225,6 @@ PrefabInstance:
     - target: {fileID: 3758314857258656527, guid: 3ca2b2fa7712468438036389597fded3, type: 3}
       propertyPath: m_Name
       value: patient
-      objectReference: {fileID: 0}
-    - target: {fileID: 3943787176546998665, guid: 3ca2b2fa7712468438036389597fded3, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -10,11 +10,13 @@ public class PlayerScript : MonoBehaviour
     public static int health;
     private float playerSpeed;
     private Rigidbody2D rb;
+    private Animator anim;
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         canControl = true;
-        health = 3;
+        health = 1;
         playerSpeed = 5f;
         rb = GetComponent<Rigidbody2D>();
     }
@@ -31,6 +33,13 @@ public class PlayerScript : MonoBehaviour
             if ((inputVector.x != 0 || inputVector.y != 0) && (inputVector.x == 0 || inputVector.y == 0))
             {
                 lastInputVector = inputVector;
+                anim.SetFloat("X", inputVector.x);
+                anim.SetFloat("Y", inputVector.y);
+                anim.SetBool("walking", true);
+            }
+            else
+            {
+                anim.SetBool("walking", false);
             }
         }
     }

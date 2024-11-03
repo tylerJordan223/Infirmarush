@@ -38,8 +38,7 @@ public class NurseSpawner : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(patients_left);
-
+        
         //makes sure that there are no patients left and all the beds are empty
         if (patients_left <= 0 && beds.Count == 6 && !leveling_up)
         {

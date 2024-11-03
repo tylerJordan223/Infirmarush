@@ -15,8 +15,8 @@ public class NurseScript : MonoBehaviour
     private float speed;
     private float level;
     public int patients_left;
+    private GameObject player;
 
-    
 
     private void Start()
     {
@@ -27,6 +27,7 @@ public class NurseScript : MonoBehaviour
         has_patient = true;
         level = NurseSpawner.level;
         speed = 0f;
+        player = GameObject.Find("Player");
     }
 
     private void Update()
@@ -62,5 +63,17 @@ public class NurseScript : MonoBehaviour
                 patient.StartCoroutine(patient.GoToBed(patient_bed));
             }
         }
+
+        //update sort order for character
+        if (this.transform.position.y < player.transform.position.y)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = player.GetComponent<SpriteRenderer>().sortingOrder + 1;
+        }
+        else
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = player.GetComponent<SpriteRenderer>().sortingOrder - 1;
+        }
+        patient.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sortingOrder = this.gameObject.GetComponent<SpriteRenderer>().sortingOrder+1;
+        patient.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = this.gameObject.GetComponent<SpriteRenderer>().sortingOrder + 2;
     }
 }
